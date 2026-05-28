@@ -3,38 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Дневник</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <!-- Шапка для авторизованных -->
 <th:block th:if="${currentUser != null}">
-    <div>
-        Вы вошли как: <strong th:text="${currentUser.username}"></strong> |
-        <a th:href="@{/logout}">Выйти</a>
-    </div>
-    <div>
-        <form th:action="@{/records/search}" method="get">
-            <input type="text" name="query" placeholder="Поиск по записям..." th:value="${searchQuery}">
-            <button type="submit">Найти</button>
-        </form>
-    </div>
-    <nav>
-        <a th:href="@{/diaries}">Все дневники</a> |
-        <a th:href="@{/users}">Пользователи</a> |
-        <a th:href="@{/records}">Все записи</a>
-    </nav>
-    <hr>
+    <header>
+        <div class="header-top" style="display: flex; justify-content: flex-end;">
+            <div class="user-info">
+                Вы вошли как: <strong th:text="${currentUser.username}"></strong> |
+                <a th:href="@{/logout}">Выйти</a>
+            </div>
+        </div>
+        <!-- Центрированные ссылки навигации -->
+        <nav style="justify-content: center;">
+            <a th:href="@{/diaries}">Все дневники</a>
+            <a th:href="@{/users}">Пользователи</a>
+            <a th:href="@{/records}">Все записи</a>
+        </nav>
+        <nav style="justify-content: center;">
+            <form class="search-form" th:action="@{/records/search}" method="get">
+                <input type="text" name="query" placeholder="Поиск по записям..." th:value="${searchQuery}">
+                <button type="submit">Найти</button>
+            </form>
+        </nav>
+    </header>
 </th:block>
 
 <!-- Шапка для гостей -->
 <th:block th:unless="${currentUser != null}">
-    <div>
-        <a th:href="@{/login}">Войти</a> |
-        <a th:href="@{/register}">Регистрация</a>
-    </div>
-    <hr>
+    <header style="text-align: center;">
+        <div class="header-top">
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a th:href="@{/login}" class="btn">Войти</a>
+                <a th:href="@{/register}" class="btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
 </th:block>
 
-<!-- Сюда вставляется контент страниц -->
+<!-- Основной контент -->
 <main>
     <th:block th:insert="${content} ?: ~{}"></th:block>
 </main>

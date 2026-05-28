@@ -7,18 +7,43 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <h2 th:text="${record.id == null} ? 'Новая запись' : 'Редактировать запись'"></h2>
-    <form method="post" enctype="multipart/form-data"
-          th:action="${record.id == null} ?
-                  @{/diaries/{did}/records(did=${diary.id})} :
-                  @{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${record.id})}">
-            <textarea name="recorddescription" rows="6" cols="50" required
-                      th:text="${record.recorddescription}"></textarea><br><br>
-        <label>Прикрепить файлы (можно несколько):</label>
-        <input type="file" name="files" multiple><br><br>
-        <button type="submit">Сохранить</button>
-        <a th:href="@{/diaries/{id}(id=${diary.id})}">Отмена</a>
-    </form>
+    <div class="card">
+        <h2 th:text="${record.id == null} ? 'Новая запись' : 'Редактировать запись'"></h2>
+        <form method="post" enctype="multipart/form-data"
+              th:action="${record.id == null} ?
+                      @{/diaries/{did}/records(did=${diary.id})} :
+                      @{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${record.id})}">
+            <div class="form-group">
+                    <textarea name="recorddescription" required
+                              th:text="${record.recorddescription}"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Прикрепить файлы (можно несколько):</label>
+                <div class="file-upload-wrapper">
+                    <label class="file-upload-label" style="width: auto; display: inline-block; color: #fff;">
+                        Выберите файл
+                        <input type="file" name="files" multiple class="file-upload-input" onchange="updateFileList(this)">
+                    </label>
+                    <span class="file-name" id="file-name">Файл не выбран</span>
+                </div>
+            </div>
+            <button type="submit" class="btn">Сохранить</button>
+            <a th:href="@{/diaries/{id}(id=${diary.id})}" class="btn" style="background:#555;">Отмена</a>
+        </form>
+    </div>
+
+    <!-- Скрипт обязательно внутри фрагмента content -->
+    <script>
+        function updateFileList(input) {
+            const fileNameSpan = document.getElementById('file-name');
+            if (input.files && input.files.length > 0) {
+                const names = Array.from(input.files).map(f => f.name).join(', ');
+                fileNameSpan.textContent = names;
+            } else {
+                fileNameSpan.textContent = 'Файл не выбран';
+            }
+        }
+    </script>
 </th:block>
 </body>
 </html>

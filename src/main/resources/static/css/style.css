@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    min-height: 100vh;
+}
+
+/* ---------- шапка ---------- */
+header {
+    background: #16213e;
+    border-bottom: 1px solid #1b3b5c;
+    padding: 20px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-top .user-info {
+    color: #a6a9b6;
+}
+
+.header-top .user-info strong {
+    color: #4da8da;
+}
+
+.header-top a {
+    color: #4da8da;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.header-top a:hover {
+    text-decoration: underline;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input {
+    padding: 10px 14px;
+    background: #0f3460;
+    border: 1px solid #1b3b5c;
+    border-radius: 10px;
+    color: #eee;
+    font-size: 0.9rem;
+    transition: border 0.3s;
+    width: 200px;
+}
+
+.search-form input:focus {
+    outline: none;
+    border-color: #4da8da;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background: #4da8da;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-form button:hover {
+    background: #3b8bbf;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #a6a9b6;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    border-bottom-color: #4da8da;
+    color: #fff;
+}
+
+/* ---------- основной контейнер ---------- */
+main {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* ---------- карточки и таблицы ---------- */
+.card {
+    background: #16213e;
+    border: 1px solid #1b3b5c;
+    border-radius: 16px;
+    padding: 25px 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #4da8da;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th {
+    text-align: left;
+    color: #a6a9b6;
+    font-weight: 500;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1b3b5c;
+}
+
+td {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(27, 59, 92, 0.4);
+    color: #ccc;
+}
+
+td a {
+    color: #4da8da;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- формы ---------- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #a6a9b6;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0f3460;
+    border: 1px solid #1b3b5c;
+    border-radius: 10px;
+    color: #eee;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #4da8da;
+    background: #1a1a2e;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #4da8da;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.1s;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    background: #3b8bbf;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-danger {
+    background: #b33a3a;
+}
+
+.btn-danger:hover {
+    background: #922e2e;
+}
+
+a.btn {
+    margin-right: 10px;
+}
+
+/* ---------- сообщения ---------- */
+.error-msg {
+    color: #4da8da;
+    background: rgba(77, 168, 218, 0.1);
+    border: 1px solid #4da8da;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* ---------- ссылки ---------- */
+.link {
+    color: #4da8da;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- разделитель ---------- */
+hr {
+    border: none;
+    border-top: 1px solid #1b3b5c;
+    margin: 20px 0;
+}
+/* Стилизованная кнопка выбора файла */
+.file-upload-wrapper {
+    margin-top: 5px;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #4da8da;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.1s;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.file-upload-label:hover {
+    background: #3b8bbf;
+}
+
+.file-upload-label:active {
+    transform: scale(0.97);
+}
+
+.file-upload-input {
+    display: none;   /* скрываем оригинальный input */
+}
+
+.file-name {
+    color: #a6a9b6;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}

@@ -7,25 +7,22 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <h2 th:text="${diary.diaryname}"></h2>
-    <p>Автор: <span th:text="${diary.user.username}"></span></p>
-    <a th:href="@{/diaries/{id}/records/new(id=${diary.id})}">Добавить запись</a>
-    <hr>
-    <div th:if="${records.isEmpty()}">Записей нет.</div>
-    <table th:if="${!records.isEmpty()}">
-        <tr>
-            <th>Дата</th>
-            <th>Автор</th>
-            <th>Описание</th>
-            <th></th>
-        </tr>
-        <tr th:each="rec : ${records}">
-            <td th:text="${#temporals.format(rec.created, 'dd.MM.yyyy HH:mm')}"></td>
-            <td th:text="${rec.user.username}"></td>
-            <td th:text="${#strings.abbreviate(rec.recorddescription, 60)}"></td>
-            <td><a th:href="@{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${rec.id})}">Открыть</a></td>
-        </tr>
-    </table>
+    <div class="card">
+        <h2 th:text="${diary.diaryname}"></h2>
+        <p style="color:#a6a9b6;">Автор: <strong th:text="${diary.user.username}" style="color:#4da8da;"></strong></p>
+        <a th:href="@{/diaries/{id}/records/new(id=${diary.id})}" class="btn" style="margin:15px 0;">Добавить запись</a>
+        <hr>
+        <div th:if="${records.isEmpty()}">Записей нет.</div>
+        <table th:if="${!records.isEmpty()}">
+            <tr><th>Дата</th><th>Автор</th><th>Описание</th><th></th></tr>
+            <tr th:each="rec : ${records}">
+                <td th:text="${#temporals.format(rec.created, 'dd.MM.yyyy HH:mm')}"></td>
+                <td th:text="${rec.user.username}"></td>
+                <td th:text="${#strings.abbreviate(rec.recorddescription, 60)}"></td>
+                <td><a th:href="@{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${rec.id})}" class="link">Открыть</a></td>
+            </tr>
+        </table>
+    </div>
 </th:block>
 </body>
 </html>

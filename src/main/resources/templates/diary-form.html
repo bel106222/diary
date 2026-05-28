@@ -7,14 +7,18 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <h2 th:text="${diary == null} ? 'Создать дневник' : 'Редактировать дневник'"></h2>
-    <form method="post"
-          th:action="${diary == null} ? @{/diaries} : @{/diaries/{id}(id=${diary.id})}">
-        <input type="text" name="diaryname" placeholder="Название"
-               th:value="${diary?.diaryname}" required><br><br>
-        <button type="submit">Сохранить</button>
-        <a th:href="${diary == null} ? @{/diaries} : @{/diaries/{id}(id=${diary.id})}">Отмена</a>
-    </form>
+    <div class="card">
+        <h2 th:text="${diary == null} ? 'Создать дневник' : 'Редактировать дневник'"></h2>
+        <form method="post"
+              th:action="${diary == null} ? @{/diaries} : @{/diaries/{id}(id=${diary.id})}">
+            <div class="form-group">
+                <input type="text" name="diaryname" placeholder="Название"
+                       th:value="${diary?.diaryname}" required>
+            </div>
+            <button type="submit" class="btn">Сохранить</button>
+            <a th:href="${diary == null} ? @{/diaries} : @{/diaries/{id}(id=${diary.id})}" class="btn" style="background:#555;">Отмена</a>
+        </form>
+    </div>
 </th:block>
 </body>
 </html>

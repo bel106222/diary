@@ -1,40 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
 <head>
     <meta charset="UTF-8">
     <title>Дневник</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div th:fragment="layout">
-    <header>
-        <div>
-            <span th:if="${currentUser != null}">
-                Вы вошли как: <strong th:text="${currentUser.username}"></strong>
-                | <a th:href="@{/logout}">Выйти</a>
-            </span>
-            <span th:unless="${currentUser != null}">
-                <a th:href="@{/login}">Войти</a>
-                | <a th:href="@{/register}">Регистрация</a>
-            </span>
-        </div>
-        <div>
-            <form th:action="@{/records/search}" method="get">
-                <input type="text" name="query" placeholder="Поиск по записям..."
-                       th:value="${searchQuery}">
-                <button type="submit">Найти</button>
-            </form>
-        </div>
-        <nav>
-            <a th:href="@{/diaries}">Все дневники</a> |
-            <a th:href="@{/users}">Пользователи</a> |
-            <a th:href="@{/records}">Все записи</a>
-        </nav>
-        <hr>
-    </header>
-    <main>
-        <th:block th:insert="${content} ?: ~{}"></th:block>
-    </main>
-</div>
+<!-- Шапка для авторизованных -->
+<th:block th:if="${currentUser != null}">
+    <div>
+        Вы вошли как: <strong th:text="${currentUser.username}"></strong> |
+        <a th:href="@{/logout}">Выйти</a>
+    </div>
+    <div>
+        <form th:action="@{/records/search}" method="get">
+            <input type="text" name="query" placeholder="Поиск по записям..." th:value="${searchQuery}">
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+    <nav>
+        <a th:href="@{/diaries}">Все дневники</a> |
+        <a th:href="@{/users}">Пользователи</a> |
+        <a th:href="@{/records}">Все записи</a>
+    </nav>
+    <hr>
+</th:block>
+
+<!-- Шапка для гостей -->
+<th:block th:unless="${currentUser != null}">
+    <div>
+        <a th:href="@{/login}">Войти</a> |
+        <a th:href="@{/register}">Регистрация</a>
+    </div>
+    <hr>
+</th:block>
+
+<!-- Сюда вставляется контент страниц -->
+<main>
+    <th:block th:insert="${content} ?: ~{}"></th:block>
+</main>
 </body>
 </html>

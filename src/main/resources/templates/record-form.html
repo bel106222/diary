@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+      th:replace="~{fragments/layout :: layout(content=~{::content})}">
 <head>
     <meta charset="UTF-8">
     <title th:text="${record.id == null} ? 'Новая запись' : 'Редактирование записи'"></title>
@@ -10,14 +10,12 @@
     <h2 th:text="${record.id == null} ? 'Новая запись' : 'Редактировать запись'"></h2>
     <form method="post" enctype="multipart/form-data"
           th:action="${record.id == null} ?
-              @{/diaries/{did}/records(did=${diary.id})} :
-              @{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${record.id})}">
-        <textarea name="recorddescription" rows="6" cols="50" required
-                  th:text="${record.recorddescription}"></textarea>
-        <br><br>
+                  @{/diaries/{did}/records(did=${diary.id})} :
+                  @{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${record.id})}">
+            <textarea name="recorddescription" rows="6" cols="50" required
+                      th:text="${record.recorddescription}"></textarea><br><br>
         <label>Прикрепить файлы (можно несколько):</label>
-        <input type="file" name="files" multiple>
-        <br><br>
+        <input type="file" name="files" multiple><br><br>
         <button type="submit">Сохранить</button>
         <a th:href="@{/diaries/{id}(id=${diary.id})}">Отмена</a>
     </form>

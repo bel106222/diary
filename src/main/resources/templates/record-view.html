@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+      th:replace="~{fragments/layout :: layout(content=~{::content})}">
 <head>
     <meta charset="UTF-8">
     <title>Запись</title>

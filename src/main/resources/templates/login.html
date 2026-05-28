@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
 </head>
 <body>
-<th:block th:fragment="content">
-    <h2>Вход в систему</h2>
-    <div th:if="${error}" style="color:red" th:text="${error}"></div>
-    <form method="post" th:action="@{/login}">
-        <input type="text" name="username" placeholder="Логин" required><br><br>
-        <input type="password" name="password" placeholder="Пароль" required><br><br>
-        <button type="submit">Войти</button>
-    </form>
-    <p>Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
-</th:block>
+<h2>Вход в систему</h2>
+<div th:if="${error}" style="color:red" th:text="${error}"></div>
+<form method="post" th:action="@{/login}">
+    <input type="text" name="username" placeholder="Логин" required><br><br>
+    <input type="password" name="password" placeholder="Пароль" required><br><br>
+    <button type="submit">Войти</button>
+</form>
+<p>Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
 </body>
 </html>

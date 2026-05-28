@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+      th:replace="~{fragments/layout :: layout(content=~{::content})}">
 <head>
     <meta charset="UTF-8">
     <title>Пользователи</title>
@@ -9,15 +9,11 @@
 <th:block th:fragment="content">
     <h2>Все пользователи</h2>
     <table>
-        <tr>
-            <th>Логин</th>
-            <th>Email</th>
-            <th>Зарегистрирован</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${#temporals.format(user.created, 'dd.MM.yyyy')}"></td>
+        <tr><th>Логин</th><th>Email</th><th>Зарегистрирован</th></tr>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.username}"></td>
+            <td th:text="${u.email}"></td>
+            <td th:text="${#temporals.format(u.created, 'dd.MM.yyyy')}"></td>
         </tr>
     </table>
 </th:block>

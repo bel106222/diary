@@ -103,6 +103,7 @@ public class RecordController {
             return "redirect:/diaries/" + diaryId;
         }
         model.addAttribute("record", record);
+        model.addAttribute("diary", record.getDiary());   // <-- добавляем дневник
         return "record-form";
     }
 

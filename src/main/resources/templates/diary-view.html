@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+      th:replace="~{fragments/layout :: layout(content=~{::content})}">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${diary.diaryname}">Дневник</title>
+    <title th:text="${diary.diaryname}"></title>
 </head>
 <body>
 <th:block th:fragment="content">
@@ -23,9 +23,7 @@
             <td th:text="${#temporals.format(rec.created, 'dd.MM.yyyy HH:mm')}"></td>
             <td th:text="${rec.user.username}"></td>
             <td th:text="${#strings.abbreviate(rec.recorddescription, 60)}"></td>
-            <td>
-                <a th:href="@{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${rec.id})}">Открыть</a>
-            </td>
+            <td><a th:href="@{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${rec.id})}">Открыть</a></td>
         </tr>
     </table>
 </th:block>

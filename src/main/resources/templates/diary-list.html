@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout}">
+      th:replace="~{fragments/layout :: layout(content=~{::content})}">
 <head>
     <meta charset="UTF-8">
     <title>Дневники</title>
@@ -10,20 +10,15 @@
     <h2>Все дневники</h2>
     <a th:href="@{/diaries/new}">Создать новый дневник</a>
     <table th:if="${!diaries.isEmpty()}">
-        <tr>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Дата создания</th>
-            <th>Действия</th>
-        </tr>
-        <tr th:each="diary : ${diaries}">
-            <td><a th:href="@{/diaries/{id}(id=${diary.id})}" th:text="${diary.diaryname}"></a></td>
-            <td th:text="${diary.user.username}"></td>
-            <td th:text="${#temporals.format(diary.created, 'dd.MM.yyyy')}"></td>
+        <tr><th>Название</th><th>Автор</th><th>Дата создания</th><th></th></tr>
+        <tr th:each="d : ${diaries}">
+            <td><a th:href="@{/diaries/{id}(id=${d.id})}" th:text="${d.diaryname}"></a></td>
+            <td th:text="${d.user.username}"></td>
+            <td th:text="${#temporals.format(d.created, 'dd.MM.yyyy')}"></td>
             <td>
-                <th:block th:if="${currentUser != null && currentUser.id == diary.user.id}">
-                    <a th:href="@{/diaries/{id}/edit(id=${diary.id})}">Ред.</a>
-                    <form th:action="@{/diaries/{id}/delete(id=${diary.id})}" method="post" style="display:inline">
+                <th:block th:if="${currentUser.id == d.user.id}">
+                    <a th:href="@{/diaries/{id}/edit(id=${d.id})}">Ред.</a>
+                    <form th:action="@{/diaries/{id}/delete(id=${d.id})}" method="post" style="display:inline">
                         <button type="submit" onclick="return confirm('Удалить дневник?')">Удалить</button>
                     </form>
                 </th:block>

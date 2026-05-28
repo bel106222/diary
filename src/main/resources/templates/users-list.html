@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <h2>Все пользователи</h2>
+    <table>
+        <tr>
+            <th>Логин</th>
+            <th>Email</th>
+            <th>Зарегистрирован</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${#temporals.format(user.created, 'dd.MM.yyyy')}"></td>
+        </tr>
+    </table>
+</th:block>
+</body>
+</html>

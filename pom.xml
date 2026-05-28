@@ -54,13 +54,6 @@
             <version>3.49.1.0</version> <!-- последняя стабильная -->
         </dependency>
 
-        <!-- Диалект Hibernate для SQLite -->
-        <dependency>
-            <groupId>com.github.gwenn</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>0.1.4</version>
-        </dependency>
-
         <!-- Lombok (для сокращения геттеров/сеттеров) -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Все записи</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <h2 th:if="${searchQuery == null}">Все записи</h2>
+    <h2 th:if="${searchQuery != null}">Результаты поиска: «<span th:text="${searchQuery}"></span>»</h2>
+
+    <div th:if="${records.isEmpty()}">Записей не найдено.</div>
+    <table th:if="${!records.isEmpty()}">
+        <tr>
+            <th>Дата</th>
+            <th>Автор</th>
+            <th>Дневник</th>
+            <th>Описание</th>
+            <th></th>
+        </tr>
+        <tr th:each="record : ${records}">
+            <td th:text="${#temporals.format(record.created, 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${record.user.username}"></td>
+            <td th:text="${record.diary.diaryname}"></td>
+            <td th:text="${#strings.abbreviate(record.recorddescription, 80)}"></td>
+            <td>
+                <a th:href="@{/diaries/{did}/records/{rid}(did=${record.diary.id}, rid=${record.id})}">Открыть</a>
+            </td>
+        </tr>
+    </table>
+</th:block>
+</body>
+</html>

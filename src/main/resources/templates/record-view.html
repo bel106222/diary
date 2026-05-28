@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <h2>Запись</h2>
+    <p><strong>Автор:</strong> <span th:text="${record.user.username}"></span></p>
+    <p><strong>Дневник:</strong> <span th:text="${record.diary.diaryname}"></span></p>
+    <p><strong>Дата:</strong> <span th:text="${#temporals.format(record.created, 'dd.MM.yyyy HH:mm')}"></span></p>
+    <p><strong>Описание:</strong></p>
+    <div style="white-space: pre-wrap;" th:text="${record.recorddescription}"></div>
+
+    <h3>Прикреплённые файлы</h3>
+    <ul>
+        <li th:each="file : ${record.files}">
+            <a th:href="@{/files/{name}(name=${file.filepath})}" th:text="${file.filepath}" target="_blank"></a>
+        </li>
+    </ul>
+    <div th:if="${record.files.isEmpty()}">Нет файлов.</div>
+
+    <div th:if="${isAuthor}">
+        <a th:href="@{/diaries/{did}/records/{rid}/edit(did=${record.diary.id}, rid=${record.id})}">Редактировать</a>
+        <form th:action="@{/diaries/{did}/records/{rid}/delete(did=${record.diary.id}, rid=${record.id})}"
+              method="post" style="display:inline">
+            <button type="submit" onclick="return confirm('Удалить запись?')">Удалить</button>
+        </form>
+    </div>
+    <br>
+    <a th:href="@{/diaries/{id}(id=${record.diary.id})}">Назад к дневнику</a>
+</th:block>
+</body>
+</html>

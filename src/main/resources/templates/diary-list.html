@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Дневники</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <h2>Все дневники</h2>
+    <a th:href="@{/diaries/new}">Создать новый дневник</a>
+    <table th:if="${!diaries.isEmpty()}">
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Дата создания</th>
+            <th>Действия</th>
+        </tr>
+        <tr th:each="diary : ${diaries}">
+            <td><a th:href="@{/diaries/{id}(id=${diary.id})}" th:text="${diary.diaryname}"></a></td>
+            <td th:text="${diary.user.username}"></td>
+            <td th:text="${#temporals.format(diary.created, 'dd.MM.yyyy')}"></td>
+            <td>
+                <th:block th:if="${currentUser != null && currentUser.id == diary.user.id}">
+                    <a th:href="@{/diaries/{id}/edit(id=${diary.id})}">Ред.</a>
+                    <form th:action="@{/diaries/{id}/delete(id=${diary.id})}" method="post" style="display:inline">
+                        <button type="submit" onclick="return confirm('Удалить дневник?')">Удалить</button>
+                    </form>
+                </th:block>
+            </td>
+        </tr>
+    </table>
+    <div th:if="${diaries.isEmpty()}">Дневников пока нет.</div>
+</th:block>
+</body>
+</html>

@@ -23,38 +23,39 @@
     </properties>
 
     <dependencies>
+        <!-- Spring Boot Web (включает встроенный Tomcat) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <!-- Thymeleaf для шаблонов -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-
+        <!-- Spring Data JPA (Hibernate - инструменту для работы с БД) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
+        <!-- Шифрование паролей (без Spring Security) -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
-
+        <!-- SQLite JDBC драйвер -->
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.49.1.0</version>
         </dependency>
-
+        <!-- Диалект Hibernate для SQLite -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-community-dialects</artifactId>
             <version>6.3.1.Final</version>
         </dependency>
-
+        <!-- Lombok (Освобождает от написания шаблонного кода (геттеров, сеттеров, конструкторов)) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

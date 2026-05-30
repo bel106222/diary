@@ -18,7 +18,7 @@ public class FileAttachment {
     private Record record;
 
     @Column(nullable = false)
-    private String filepath;   // путь/имя файла относительно uploads
+    private String filepath;   // путь/имя файла относительно папки uploads
 
     @Column(nullable = false)
     private LocalDateTime attached;

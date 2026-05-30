@@ -17,7 +17,7 @@ public class Diary {
     @Column(nullable = false)
     private String diaryname;
 
-    // Автор дневника (только он может удалить/редактировать дневник)
+    // Автор дневника (только он сможет удалять/редактировать эту запись)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid", nullable = false)
     private User user;

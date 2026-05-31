@@ -1,12 +1,27 @@
 <!DOCTYPE html>
+
+<!-- Подключаем пространство имён Thymeleaf, делающее доступными все атрибуты th:*,
+а затем – объявляем фрагмент с именем layout, который принимает параметр content.
+Дочерние шаблоны (например, users-list.html) вызывают этот фрагмент через
+th:replace="~{fragments/layout :: layout(content=~{::content})}", передавая
+свой блок content. Это основа повторного использования макета: всё, что передано как
+content, будет вставлено в <main>.-->
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
 <head>
     <meta charset="UTF-8">
     <title>Дневник</title>
+
+    <!-- th:href генерирует корректный URL с учётом контекста приложения и полученные стили
+    применяются ко всем страницам, использующим этот макет.-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<!-- Шапка для авторизованных -->
+
+<!-- Шапка для авторизованных.
+Логический контейнер, который исчезает при рендеринге, не создавая лишних HTML-элементов.
+Содержит условие - весь этот блок (шапка с навигацией и поиском) будет отрисован только если
+пользователь вошёл в систему (атрибут currentUser существует в модели). Это гарантирует,
+что гости не увидят внутренние ссылки и поиск.-->
 <th:block th:if="${currentUser != null}">
     <header>
         <div class="header-top" style="display: flex; justify-content: flex-end;">
@@ -22,7 +37,14 @@
             <a th:href="@{/records}">Все записи</a>
         </nav>
         <nav style="justify-content: center;">
+
+            <!-- th:action генерирует URL для обработчика поиска MainController.searchRecords()-->
             <form class="search-form" th:action="@{/records/search}" method="get">
+
+                <!-- th:value="${searchQuery}" - позволяет, если пользователь уже выполнял поиск,
+                значение запроса сохранять в модели и подставлять обратно в поле. Так пользователь
+                видит, что искал, и может уточнить запрос. Если searchQuery отсутствует (главная
+                страница), поле будет пустым.-->
                 <input type="text" name="query" placeholder="Поиск по записям..." th:value="${searchQuery}">
                 <button type="submit">Найти</button>
             </form>
@@ -30,7 +52,9 @@
     </header>
 </th:block>
 
-<!-- Шапка для гостей -->
+<!-- Шапка для гостей
+th:unless="${currentUser != null}" – противоположность th:if. Блок отображается, только если
+пользователь не вошёл (т.е. currentUser == null) -->
 <th:block th:unless="${currentUser != null}">
     <header style="text-align: center;">
         <div class="header-top">
@@ -44,6 +68,12 @@
 
 <!-- Основной контент -->
 <main>
+    <!-- ${content} – параметр, переданный дочерним шаблоном через layout(content=~{::content}).
+    Он содержит фрагмент content со всем наполнением (таблицы, формы и т.д.).
+    ?: ~{} – это оператор "Elvis" (аналог тернарного оператора): если content не null/не пуст,
+    вставляется он; иначе вставляется пустой фрагмент (~{}), чтобы не было ошибки.
+    Это защита на случай, если какой-то шаблон вызовет макет без передачи контента.
+    th:insert – вставляет содержимое переданного фрагмента внутрь <main>, сохраняя сам <main>.-->
     <th:block th:insert="${content} ?: ~{}"></th:block>
 </main>
 </body>

@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- Объявляем пространство имён Thymeleaf. Без этого префикса th: атрибуты не работают,
+и Thymeleaf их игнорирует. По сути, это «подключение» шаблонизатора.-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -118,16 +120,42 @@
 <div class="login-container">
     <h1>ОНЛАЙНОВЫЙ ДНЕВНИК</h1>
     <h2>Вход в систему</h2>
+
+    <!--Блок ошибки (динамический)-->
+    <!--th:if="${error}" — Thymeleaf-условие: этот div отобразится только если в модели есть
+    атрибут error и он не null и не пустая строка. Если атрибута нет (например, при первом
+    заходе на страницу), блок вообще не попадёт в HTML.
+    th:text="${error}" — Thymeleaf заменяет содержимое div значением переменной error из модели.
+    Именно этот текст будет показан пользователю (например, «Неверное имя пользователя или пароль»).
+    Шаблон не должен содержать статический текст ошибки. Сообщение приходит из контроллера
+    через flash-атрибут, что позволяет показывать разные ошибки в одном месте.-->
     <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+    <!-- method="post" — данные формы будут отправлены HTTP-методом POST. Это безопаснее для паролей,
+    чем GET (где пароль светился бы в URL). Также это соответствует REST-принципу: действие
+    входа изменяет состояние (создаёт сессию).
+    th:action="@{/login}" — здесь Thymeleaf сгенерирует URL для отправки формы. @{} — это ссылочный
+    литерал, который автоматически подставляет контекст приложения (если он есть). В нашем
+    случае превратится в /login. Использование th:action вместо обычного action гарантирует
+    правильный URL даже при изменении контекстного пути.-->
     <form method="post" th:action="@{/login}">
         <div class="input-group">
+
+            <!-- Важно! name="username" - имя должно точно совпадать с параметром @RequestParam
+            String username в контроллере AuthController. Именно по этому имени Spring связывает
+            поле формы с аргументом метода.-->
             <input type="text" name="username" placeholder="Логин" required autocomplete="username">
         </div>
         <div class="input-group">
+
+            <!-- Важно! name="password" — соответствует @RequestParam String password в контроллере.-->
             <input type="password" name="password" placeholder="Пароль" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn-login">Войти</button>
     </form>
+
+    <!-- <a th:href="@{/register}"> — Thymeleaf-ссылка на страницу регистрации. @{} гарантирует
+    правильный URL. При клике пользователь перейдёт на /register.-->
     <p class="register-link">Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
 </div>
 </body>

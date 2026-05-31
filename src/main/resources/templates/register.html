@@ -32,6 +32,7 @@
 <div class="reg-container">
     <h1>ОНЛАЙНОВЫЙ ДНЕВНИК</h1>
     <h2>Регистрация</h2>
+    <!-- теги th: и наименования полей аналогичны шаблону login.html-->
     <div th:if="${error}" class="error-msg" th:text="${error}"></div>
     <form method="post" th:action="@{/register}">
         <div class="form-group">

@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(content=~{::content})}">
+      <!-- th:replace="~{fragments/layout :: layout(content=~{::content})}" – ключевая строка,
+      которая встраивает эту страницу в общий макет. ~{fragments/layout :: layout(...)} – ссылка
+      на фрагмент layout в файле fragments/layout.html. content=~{::content} – передача в макет
+      содержимого фрагмента с именем content из текущего шаблона. Всё, что находится внутри
+      <th:block th:fragment="content"> (ниже), будет подставлено в то место макета, где
+      ожидается ${content}. Это стандартный паттерн Thymeleaf для повторного использования
+      макета: каждая страница определяет свой блок content, а макет обеспечивает общую
+      структуру (шапку, меню, подвал). Так мы не дублируем навигацию на каждой странице. -->
 <head>
     <meta charset="UTF-8">
     <title>Пользователи</title>
 </head>
 <body>
+
+<!--<th:block th:fragment="content"> – определяет фрагмент с именем content. Именно он будет
+передан в макет через content=~{::content}. Это логический контейнер, который сам в HTML не
+рендерится (элемент th:block исчезает после обработки).-->
 <th:block th:fragment="content">
     <div class="card">
         <h2>Все пользователи</h2>
         <table>
             <tr><th>Логин</th><th>Email</th><th>Зарегистрирован</th></tr>
+
+                <!--  Строки таблицы с данными (динамический блок)
+                th:each="u : ${users}" – цикл Thymeleaf, который перебирает каждый элемент
+                коллекции users. Эта коллекция была помещена в модель контроллером
+                (model.addAttribute("users", ...)). На каждой итерации текущий объект User
+                доступен как переменная u. Это локальная переменная цикла.
+                <td th:text="${u.username}"></td> – ячейка таблицы, в которой отображается имя
+                пользователя. Thymeleaf вызывает getUsername() и вставляет текст. Если имя
+                содержит потенциально опасные символы (например, <), они будут экранированы
+                для безопасности (защита от XSS).
+                <td th:text="${u.email}"></td> – аналогично для email.
+                <td th:text="${#temporals.format(u.created, 'dd.MM.yyyy')}"></td> – форматирование
+                даты регистрации, где #temporals – встроенный объект Thymeleaf для работы с
+                датами и временем, а .format(u.created, 'dd.MM.yyyy') – преобразует поле
+                created (типа LocalDateTime) в строку вида 31.05.2026. Это удобно для отображения,
+                потому что при просто ${u.created}, дата была бы отображена в стандартном
+                ISO-формате (например, 2026-05-31T12:30:00), что неудобно для чтения.-->
             <tr th:each="u : ${users}">
                 <td th:text="${u.username}"></td>
                 <td th:text="${u.email}"></td>
@@ -18,6 +47,7 @@
             </tr>
         </table>
     </div>
+<!-- Всё, что внутри th:block, теперь будет вставлено в макет.-->
 </th:block>
 </body>
 </html>

@@ -1,21 +1,46 @@
+<!-- Шаблон record-form.html — универсальная форма, которая используется и для создания
+новой записи, и для редактирования существующей. Она умеет менять заголовок, адрес отправки,
+подставлять описание и загружать файлы.-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(content=~{::content})}">
+      <!-- оборачиваемся в общий макет layout.html-->
 <head>
     <meta charset="UTF-8">
+
+    <!-- Заголовок вкладки браузера. Он формируется динамически:
+    Если record.id == null (объект новый, еще не сохранен), показывается 'Новая запись'.
+    Иначе (record.id уже существует, значит запись редактируется) – 'Редактирование записи'.
+    Т.о., пользователь сразу понимает, создаёт он запись или редактирует, уже по заголовку вкладки.-->
     <title th:text="${record.id == null} ? 'Новая запись' : 'Редактирование записи'"></title>
 </head>
 <body>
+
+<!-- Объявляет блок, передаваемый в макет-->
 <th:block th:fragment="content">
     <div class="card">
+
+        <!-- Аналог заголовка вкладки браузера. Формируется динамически: -->
         <h2 th:text="${record.id == null} ? 'Новая запись' : 'Редактировать запись'"></h2>
+
+        <!-- Фома. Данные отправляются методом POST (создание/обновление – действия с побочным эффектом)
+        enctype="multipart/form-data" – обязательно для передачи файлов. Без этого атрибута
+        файлы не попадут на сервер.
+        th:action – адрес отправки формы. Он тоже определяется динамически:
+        Если record.id == null (новая запись): URL строится как /diaries/{did}/records,
+        где did – id текущего дневника. Этот URL обрабатывается RecordController.createRecord().
+        Если record.id != null (редактирование): URL включает ещё и id самой записи:
+        /diaries/{did}/records/{rid}. Обрабатывается RecordController.updateRecord().-->
         <form method="post" enctype="multipart/form-data"
               th:action="${record.id == null} ?
                       @{/diaries/{did}/records(did=${diary.id})} :
                       @{/diaries/{did}/records/{rid}(did=${diary.id}, rid=${record.id})}">
             <div class="form-group">
-                    <textarea name="recorddescription" required
-                              th:text="${record.recorddescription}"></textarea>
+
+                <!-- name="recorddescription" – связывает поле с параметром @RequestParam
+                String recorddescription в контроллере.-->
+                <textarea name="recorddescription" required
+                         th:text="${record.recorddescription}"></textarea>
             </div>
             <div class="form-group">
                 <label>Прикрепить файлы (можно несколько):</label>
@@ -32,7 +57,9 @@
         </form>
     </div>
 
-    <!-- Скрипт обязательно внутри фрагмента content -->
+    <!-- Скрипт, обязательно внутри фрагмента content,
+    служит для замены стандартного <input>, который сложно поддаётся стилизации,
+    на обычный <label>, который стилизован как все остальные кнопки в проекте -->
     <script>
         function updateFileList(input) {
             const fileNameSpan = document.getElementById('file-name');

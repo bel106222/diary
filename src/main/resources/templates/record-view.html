@@ -1,3 +1,6 @@
+<!-- Шаблон record-view.html — страница детального просмотра одной записи.
+Этот шаблон показывает полную информацию о записи, прикрепленные файлы и предоставляет
+кнопки редактирования/удаления только автору.-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(content=~{::content})}">
@@ -17,14 +20,32 @@
 
         <h3 style="color:#4da8da; margin-top:20px;">Прикреплённые файлы</h3>
         <ul style="list-style:none; padding-left:0;">
+
+            <!-- Перебираем коллекцию record.files (связь @OneToMany). На каждом шаге переменная
+            file – это объект FileAttachment.-->
             <li th:each="file : ${record.files}" style="margin:5px 0;">
+
+                <!-- Формируем ссылку вида /files/имя_файла. Этот URL обслуживается ресурсным
+                обработчиком, настроенным в WebConfig, который ищет файлы в папке uploads.
+                target="_blank" открывает файл в новой вкладке (что удобно для просмотра,
+                не покидая страницу). th:text="${file.filepath}" – отображает имя файла
+                (или UUID с расширением). -->
                 <a th:href="@{/files/{name}(name=${file.filepath})}" th:text="${file.filepath}" class="link" target="_blank"></a>
             </li>
         </ul>
+
+        <!-- если коллекция файлов пуста, показываем сообщение вместо пустого списка.-->
         <div th:if="${record.files.isEmpty()}">Нет файлов.</div>
 
+        <!-- Этот блок виден только если атрибут isAuthor истинен. Он устанавливается в
+        контроллере viewRecord проверкой record.getUser().getId().equals(currentUser.getId()).
+        Так мы скрываем кнопки от чужих пользователей.-->
         <div th:if="${isAuthor}" style="margin-top:20px;">
+
+            <!-- Ссылка, стилизованная как кнопка (класс btn). Ведёт на форму редактирования.-->
             <a th:href="@{/diaries/{did}/records/{rid}/edit(did=${record.diary.id}, rid=${record.id})}" class="btn">Редактировать</a>
+
+            <!-- th:action – URL для удаления записи.-->
             <form th:action="@{/diaries/{did}/records/{rid}/delete(did=${record.diary.id}, rid=${record.id})}"
                   method="post" style="display:inline">
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Удалить запись?')">Удалить</button>
